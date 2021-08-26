@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 
@@ -9,7 +10,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public List<Task> AllTasks = new List<Task>();
-    
+    public Task ActualTask;
+
     public TextLink TLNombre;
     public TextLink TLApellidos;
     public TextLink TLNacimiento;
@@ -21,6 +23,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI TMPTextPass;
+
+    [SerializeField]
+    private TextMeshProUGUI TMPTextActionSelected;
 
     public ActionSelected ScriptActionSelected;
 
@@ -42,6 +47,7 @@ public class GameManager : MonoBehaviour
             if (AllTasks[i].TaskInList == false)
             {
 
+                ActualTask = AllTasks[i];
                 return AllTasks[i];
 
             }
@@ -55,7 +61,8 @@ public class GameManager : MonoBehaviour
     public void SetTextTaskInfo(string textString)
     {
 
-        TMPTaskInfo.text = textString;
+        // TMPTaskInfo.text = textString;
+        StartCoroutine(TypeText(TMPTaskInfo,textString, 0.02f));
 
     }
 
@@ -70,16 +77,108 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void SetTextActionSelected(string textString)
+    {
+
+        TMPTextActionSelected.text = textString;
+
+    }
+
     #region TextPass
 
     public void SetTextPass(string textString)
     {
-        TMPTextPass.text += " " + textString;
+
+        string ToFormat = TMPTextPass.text + " " + textString;
+
+        TextToPass(ToFormat);
+
+        // TMPTextPass.text += " " + textString;
+
     }
 
     public void DeleteTextPass()
     {
         TMPTextPass.text = "";
+    }
+
+    public void DeleteSpacesPass()
+    {
+        string ToFormat = TMPTextPass.text;
+        ToFormat = ToFormat.Replace(" ", "");
+        TextToPass(ToFormat);
+    }
+
+    public void DeleteNumbersPass()
+    {
+        string ToFormat = TMPTextPass.text;
+      
+        const string regex = @"\d";
+
+        ToFormat = Regex.Replace(ToFormat, regex, string.Empty);
+
+        TextToPass(ToFormat);
+
+    }
+
+    public void DeleteSymbolsPass()
+    {
+        string ToFormat = TMPTextPass.text;
+
+        const string regex = @"[^0-9a-zA-Z]+";
+
+        ToFormat = Regex.Replace(ToFormat, regex, string.Empty);
+
+        TextToPass(ToFormat);
+
+    }
+
+    public void MayusPass()
+    {
+        string ToFormat = TMPTextPass.text;
+
+        ToFormat = ToFormat.ToUpper();
+
+        TextToPass(ToFormat);
+
+    }
+
+    public void MinusPass()
+    {
+        string ToFormat = TMPTextPass.text;
+
+        ToFormat = ToFormat.ToLower();
+
+        TextToPass(ToFormat);
+
+    }
+
+    private void TextToPass(string newText)
+    {
+
+        if(newText.Length >= 36)
+        {
+
+             newText = newText.Substring(0,newText.Length-(newText.Length-21));
+
+            //DeleteTextPass();
+
+        }
+        else
+        {
+
+            // TMPTextPass.text = newText;
+            StartCoroutine(TypeText(TMPTextPass,newText,0.1f));
+
+        }
+
+        // Debug.Log(TMPTextPass.textInfo.);
+        // if(TMPTextPass.isTextTruncated == false)
+        // {
+           
+        // } 
+
+        
     }
 
     #endregion
@@ -93,6 +192,20 @@ public class GameManager : MonoBehaviour
 
         return new Vector3(Camera.main.ScreenToWorldPoint(mousePoint).x
         , Camera.main.ScreenToWorldPoint(mousePoint).y, 0f);
+
+    }
+
+    // Efecto maquina de escribir para el texto de la clave
+    public IEnumerator TypeText(TextMeshProUGUI TMP, string text, float delay)
+    {
+        
+        for (int i = 0; i <= text.Length; i++)
+        {
+
+            TMP.text = text.Substring(0, i);
+            yield return new WaitForSeconds(delay);
+
+        }
 
     }
 

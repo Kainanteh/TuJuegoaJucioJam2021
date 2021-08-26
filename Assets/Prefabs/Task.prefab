@@ -60,6 +60,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TaskId: 
+  TaskInfo: 
+  TaskInList: 0
+  TaskObjective:
+    lengthOb: 0
+    number: 0
+    allnumbers: 0
+  TaskUser:
+    nombre: 
+    apellidos: 
+    nacimiento: 
+    edad: 
+    ciudad: 
 --- !u!114 &4200642464288291145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,7 +102,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+  m_fontColor: {r: 0.011764706, g: 0.627451, b: 0.38431373, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

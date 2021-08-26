@@ -22,6 +22,7 @@ public class Actions
         send,
         nextAction,
         previousAction,
+        playAction,
 
 
     }

@@ -35,7 +35,8 @@ public class TextLink : MonoBehaviour, IPointerClickHandler
     {
 
         TextLinkText = text;
-        TMPTextLink.text = text;
+        // TMPTextLink.text = text;
+        StartCoroutine(GameManager.Instance.TypeText(TMPTextLink, text, 0.05f));
 
     }
 

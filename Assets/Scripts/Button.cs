@@ -9,6 +9,8 @@ public class Button : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     private Actions.ButtonActions ButtonAction;
 
+    public Animation AnimButton;
+
     public void ChangeButtonAction(Actions.ButtonActions newAction)
     {
 
@@ -24,9 +26,18 @@ public class Button : MonoBehaviour, IPointerClickHandler
 
         if (hitInfo)
         {
+            PlayActionButton();
+            AnimButton.Play();
 
-           switch(ButtonAction)
-           {
+        }
+
+    }
+
+    private void PlayActionButton()
+    {
+
+        switch (ButtonAction)
+        {
 
             case Actions.ButtonActions.delete:
             {
@@ -55,13 +66,72 @@ public class Button : MonoBehaviour, IPointerClickHandler
 
             }
 
+            case Actions.ButtonActions.playAction:
+            {
+
+                PlayActionButton(GameManager.Instance.ScriptActionSelected.GetSelectedAction());
+
+                break;
+
+            }
 
 
-           }
+
+        }
+    }
+
+    private void PlayActionButton(Actions.ButtonActions actionSelected)
+    {
+
+        switch (actionSelected)
+        {
+
+            case Actions.ButtonActions.deletespace:
+            {
+
+                GameManager.Instance.DeleteSpacesPass();
+
+                break;
+
+            }
+
+            case Actions.ButtonActions.deletenumber:
+            {
+
+                GameManager.Instance.DeleteNumbersPass();
+
+                break;
+
+            }
+
+            case Actions.ButtonActions.deletesimbol:
+            {
+
+                GameManager.Instance.DeleteSymbolsPass();
+
+                break;
+
+            }
+
+            case Actions.ButtonActions.mayus:
+            {
+
+                GameManager.Instance.MayusPass();
+
+                break;
+
+            }
+
+            case Actions.ButtonActions.minus:
+            {
+
+                GameManager.Instance.MinusPass();
+
+                break;
+
+            }
 
         }
 
     }
-
-
 }

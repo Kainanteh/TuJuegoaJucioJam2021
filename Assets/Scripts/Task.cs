@@ -17,6 +17,9 @@ public class Task : MonoBehaviour,IPointerClickHandler
 
     public User TaskUser;
 
+    [SerializeField]
+    GameObject SelectionSquare;
+
     public void OnPointerClick(PointerEventData eventData)
     {
 
@@ -25,10 +28,21 @@ public class Task : MonoBehaviour,IPointerClickHandler
 
         if (hitInfo)
         {
+
             GameManager.Instance.SetTextTaskInfo(TaskInfo);
             GameManager.Instance.SetTextUserInfo(TaskUser);
+            GameManager.Instance.DeselectAllTaskList();
+            SquareTask(true);
             
         }
+
+    }
+
+    public void SquareTask(bool active)
+    {
+
+        SelectionSquare.SetActive(active);
+
 
     }
 

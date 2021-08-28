@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
+    
+
     public List<Task> AllTasks = new List<Task>();
     public Task ActualTask;
 
@@ -28,6 +30,14 @@ public class GameManager : MonoBehaviour
     private TextMeshProUGUI TMPTextActionSelected;
 
     public ActionSelected ScriptActionSelected;
+
+
+    private bool EffecType = false;
+    private bool EffecTypeTaskInfo = false;
+    private bool EffecTypeTextLink = false;
+
+    Coroutine CouroutineTaskInfo;
+
 
     private void Awake()
     {
@@ -58,22 +68,57 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void DeselectAllTaskList()
+    {
+
+        for (int i = 0; i < AllTasks.Count; i++)
+        {
+
+            if (AllTasks[i].TaskInList == true)
+            {
+
+
+                AllTasks[i].SquareTask(false);
+            
+
+            }
+
+        }
+
+    }
+
     public void SetTextTaskInfo(string textString)
     {
 
         // TMPTaskInfo.text = textString;
-        StartCoroutine(TypeText(TMPTaskInfo,textString, 0.02f));
+        
+        if(EffecTypeTaskInfo == true)
+        {
+           
+            StopCoroutine(CouroutineTaskInfo);
+        }
+        else
+        {
+            EffecTypeTaskInfo = true;
+        }
+        CouroutineTaskInfo = StartCoroutine(TypeText(TMPTaskInfo, textString, 0.02f,true));
+
+        
 
     }
 
     public void SetTextUserInfo(User user)
     {
 
+      
+       
         TLNombre.SetTextLink(user.nombre);
         TLApellidos.SetTextLink(user.apellidos);
         TLNacimiento.SetTextLink(user.nacimiento);
         TLEdad.SetTextLink(user.edad);
         TLCiudad.SetTextLink(user.ciudad);
+
+        
 
     }
 
@@ -164,9 +209,9 @@ public class GameManager : MonoBehaviour
             //DeleteTextPass();
 
         }
-        else
+        else if (EffecType == false)
         {
-
+            EffecType = true;
             // TMPTextPass.text = newText;
             StartCoroutine(TypeText(TMPTextPass,newText,0.1f));
 
@@ -206,8 +251,23 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(delay);
 
         }
-
+        EffecType = false;
     }
+
+    public IEnumerator TypeText(TextMeshProUGUI TMP, string text, float delay, bool TaskInfo)
+    {
+
+        for (int i = 0; i <= text.Length; i++)
+        {
+
+            TMP.text = text.Substring(0, i);
+            yield return new WaitForSeconds(delay);
+
+        }
+        EffecTypeTaskInfo = false;
+    }
+
+
 
   
 

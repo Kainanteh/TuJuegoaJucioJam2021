@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
-    
+    public string PassInput = "";
 
     public List<Task> AllTasks = new List<Task>();
     public Task ActualTask;
@@ -38,6 +38,9 @@ public class GameManager : MonoBehaviour
 
     Coroutine CouroutineTaskInfo;
 
+    public AudioSource SoundSource;
+    public AudioClip[] AllSounds;
+
 
     private void Awake()
     {
@@ -57,7 +60,7 @@ public class GameManager : MonoBehaviour
             if (AllTasks[i].TaskInList == false)
             {
 
-                ActualTask = AllTasks[i];
+                // ActualTask = AllTasks[i];
                 return AllTasks[i];
 
             }
@@ -213,9 +216,11 @@ public class GameManager : MonoBehaviour
         {
             EffecType = true;
             // TMPTextPass.text = newText;
-            StartCoroutine(TypeText(TMPTextPass,newText,0.1f));
+            StartCoroutine(TypeText(TMPTextPass,newText,0.05f));
 
         }
+
+        PassInput = newText;
 
         // Debug.Log(TMPTextPass.textInfo.);
         // if(TMPTextPass.isTextTruncated == false)

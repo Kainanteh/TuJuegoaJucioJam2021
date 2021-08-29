@@ -28,6 +28,7 @@ public class Button : MonoBehaviour, IPointerClickHandler
         {
             PlayActionButton();
             AnimButton.Play();
+            GameManager.Instance.SoundSource.PlayOneShot(GameManager.Instance.AllSounds[0]);
 
         }
 
@@ -43,7 +44,7 @@ public class Button : MonoBehaviour, IPointerClickHandler
             {
 
                 GameManager.Instance.DeleteTextPass();
-
+                
                 break;
 
             }
@@ -75,6 +76,28 @@ public class Button : MonoBehaviour, IPointerClickHandler
 
             }
 
+            case Actions.ButtonActions.send:
+            {
+                if(GameManager.Instance.ActualTask == null){break;}
+                
+                Objective ActualObjective = GameManager.Instance.ActualTask.TaskObjective;
+                string ActualPass = GameManager.Instance.PassInput;
+
+                if(ActualObjective.lengthOb != 0)
+                {
+
+                    if(ActualPass.Length > ActualObjective.lengthOb)
+                    {
+                        Debug.Log("demasiado larga");
+                    }
+
+                }
+
+
+
+                break;
+
+            }
 
 
         }
@@ -130,6 +153,8 @@ public class Button : MonoBehaviour, IPointerClickHandler
                 break;
 
             }
+
+         
 
         }
 

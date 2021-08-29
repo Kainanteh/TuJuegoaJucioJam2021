@@ -29,6 +29,7 @@ public class Task : MonoBehaviour,IPointerClickHandler
         if (hitInfo)
         {
 
+            GameManager.Instance.ActualTask = this;
             GameManager.Instance.SetTextTaskInfo(TaskInfo);
             GameManager.Instance.SetTextUserInfo(TaskUser);
             GameManager.Instance.DeselectAllTaskList();

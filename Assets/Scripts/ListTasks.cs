@@ -11,6 +11,8 @@ public class ListTasks : MonoBehaviour
     public GameObject GameTask;
 
     // const string glyphs = "abcdefghijklmnopqrstuvwxyz0123456789";
+    
+    public float timeToTask = 10f;
 
     private void Start()
     {
@@ -22,12 +24,28 @@ public class ListTasks : MonoBehaviour
     private void Update() 
     {
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        // if(Input.GetKeyDown(KeyCode.Space))
+        // {
+
+        //    AddTaskToList(); 
+
+        // }
+
+
+
+        if (timeToTask > 0)
         {
-
-            AddTaskToList();
-
+            timeToTask -= Time.deltaTime;
+            
         }
+        else
+        {
+            AddTaskToList();
+            timeToTask = 10f;
+            
+        }
+            
+        
 
     }
 

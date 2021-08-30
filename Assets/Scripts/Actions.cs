@@ -15,6 +15,7 @@ public class Actions
         deletespace,
         deletesimbol,
         deletenumber,
+        deletechars,
         capitalice,
         descapitalice,
         mayus,

@@ -34,6 +34,9 @@ public class Task : MonoBehaviour,IPointerClickHandler
             GameManager.Instance.SetTextUserInfo(TaskUser);
             GameManager.Instance.DeselectAllTaskList();
             SquareTask(true);
+
+            GameManager.Instance.PassInput = "";
+            GameManager.Instance.DeleteTextPass();
             
         }
 
@@ -41,7 +44,7 @@ public class Task : MonoBehaviour,IPointerClickHandler
 
     public void SquareTask(bool active)
     {
-
+        if(SelectionSquare==null){return;}
         SelectionSquare.SetActive(active);
 
 

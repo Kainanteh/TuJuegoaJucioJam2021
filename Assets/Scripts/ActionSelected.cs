@@ -76,6 +76,11 @@ public class ActionSelected : MonoBehaviour
                 return "Borrar numeros";
             }
 
+            case Actions.ButtonActions.deletechars:
+            {
+                return "Borrar letras";
+            }
+
             case Actions.ButtonActions.mayus:
             {
 

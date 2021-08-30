@@ -14,11 +14,11 @@ public class GameManager : MonoBehaviour
     public List<Task> AllTasks = new List<Task>();
     public Task ActualTask;
 
-    public TextLink TLNombre;
-    public TextLink TLApellidos;
-    public TextLink TLNacimiento;
-    public TextLink TLEdad;
-    public TextLink TLCiudad;
+    [HideInInspector] public TextLink TLNombre;
+    [HideInInspector] public TextLink TLApellidos;
+    [HideInInspector] public TextLink TLNacimiento;
+    [HideInInspector] public TextLink TLEdad;
+    [HideInInspector] public TextLink TLCiudad;
 
     [SerializeField]
     private TextMeshProUGUI TMPTaskInfo;
@@ -41,6 +41,16 @@ public class GameManager : MonoBehaviour
     public AudioSource SoundSource;
     public AudioClip[] AllSounds;
 
+    public TextMeshProUGUI TMPTextPadlock;
+    public bool InTutorial = true;
+
+    public TextMeshProUGUI TMPTextTimer;
+    public Progress ScriptProgress;
+
+    public TextMeshProUGUI TMPTextTaskCompleted;
+    int TaskCompleted = 0;
+    public TextMeshProUGUI TMPTextTaskFail;
+    int TaskFail = 0;
 
     private void Awake()
     {
@@ -50,6 +60,8 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
     }
+
+    #region SetTaskUserInfo
 
     public Task GetTask()
     {
@@ -132,6 +144,8 @@ public class GameManager : MonoBehaviour
 
     }
 
+    #endregion
+
     #region TextPass
 
     public void SetTextPass(string textString)
@@ -162,6 +176,18 @@ public class GameManager : MonoBehaviour
         string ToFormat = TMPTextPass.text;
       
         const string regex = @"\d";
+
+        ToFormat = Regex.Replace(ToFormat, regex, string.Empty);
+
+        TextToPass(ToFormat);
+
+    }
+
+    public void DeleteCharsPass()
+    {
+        string ToFormat = TMPTextPass.text;
+
+        const string regex = @"\D+";
 
         ToFormat = Regex.Replace(ToFormat, regex, string.Empty);
 
@@ -220,6 +246,9 @@ public class GameManager : MonoBehaviour
 
         }
 
+      
+        newText = newText.Substring(1); 
+
         PassInput = newText;
 
         // Debug.Log(TMPTextPass.textInfo.);
@@ -233,6 +262,144 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+
+    public void PassToObjective()
+    {
+
+        if (ActualTask == null) { return; }
+
+        Objective ActualObjective = ActualTask.TaskObjective;
+        string ActualPass = PassInput;
+
+        string Fails = "";
+
+        if (ActualObjective.lengthOb != -1)
+        {
+            // La clave no se pasa del objetivo
+            if (ActualPass.Length > ActualObjective.lengthOb)
+            {
+                Fails += "demasiado larga";
+            }
+        }
+        if (ActualObjective.number == true)
+        {
+
+            string toCompare = "";
+            const string regex = @"\d";
+
+            toCompare = Regex.Replace(ActualPass, regex, string.Empty);
+
+            // La clave tiene que tener numeros
+            if(toCompare == ActualPass)
+            {
+                Fails += " , no tiene numeros";
+            }
+     
+        }
+        else
+        {
+            
+            string toCompare = "";
+            const string regex = @"\d";
+
+            toCompare = Regex.Replace(ActualPass, regex, string.Empty);
+
+            // La clave NO tiene que tener numeros
+            if (toCompare != ActualPass)
+            {
+                Fails += " ,  tiene numeros";
+            }
+            
+        }
+        if (ActualObjective.allnumbers == true)
+        {
+            
+            string toCompare = "";
+            const string regex = @"\d";
+
+            toCompare = Regex.Replace(ActualPass, regex, string.Empty);
+
+            // La clave tiene que ser TODO numeros
+            if (toCompare != " ")
+            {
+                Fails += " ,  no son todo numeros";
+            }
+
+        }
+        if (ActualObjective.allminus == true)
+        {
+            
+            string toCompare = "";
+           
+
+            toCompare = ActualPass.ToLower();
+
+            // La clave tiene que tener TODO minusculas
+            if (toCompare != ActualPass)
+            {
+                Fails += " ,  no son todo minusculas";
+            }
+
+        }
+        if (ActualObjective.allmayus == true)
+        {
+            
+            string toCompare = "";
+          
+            toCompare = ActualPass.ToUpper();
+            
+            // La clave tiene que tener TODO mayusculas
+            if (toCompare != ActualPass)
+            {
+                Fails += " ,  no son todo mayusculas";
+            }
+
+        }
+        if (ActualObjective.numminus != -1)
+        {
+            // La clave tiene que tener # numero de minusculas
+            // if()
+            // {
+
+            // }
+            // else
+            // {
+
+            // }
+        }
+        if (ActualObjective.nummayus != -1)
+        {
+            // La clave tiene que tener # numero de mayusculas
+            // if()
+            // {
+
+            // }
+            // else
+            // {
+
+            // }
+        }
+
+        // Debug.Log(Fails);
+
+        if(Fails == "" && ActualPass!="")
+        {
+            TaskCompleted += 1;
+            TMPTextTaskCompleted.text = TaskCompleted.ToString();
+            SoundSource.PlayOneShot(GameManager.Instance.AllSounds[1]);
+        }
+        else
+        {
+            TaskFail += 1;
+            TMPTextTaskFail.text = TaskFail.ToString();
+            SoundSource.PlayOneShot(GameManager.Instance.AllSounds[2]);
+        }
+        PassInput= "";
+        DeleteTextPass();
+        Destroy(ActualTask.gameObject);
+        ScriptProgress.timerIsRunning = true;
+
+    }
 
     // Posicion Raton/Dedo en la pantalla
     public Vector3 GetMouseAsWorldPoint()
@@ -271,6 +438,16 @@ public class GameManager : MonoBehaviour
         }
         EffecTypeTaskInfo = false;
     }
+
+
+    public void Final()
+    {
+
+        Debug.Log("FINAL");
+
+    }
+
+
 
 
 

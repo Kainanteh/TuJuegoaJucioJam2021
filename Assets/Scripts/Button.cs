@@ -78,22 +78,23 @@ public class Button : MonoBehaviour, IPointerClickHandler
 
             case Actions.ButtonActions.send:
             {
-                if(GameManager.Instance.ActualTask == null){break;}
+
+                // if(GameManager.Instance.ActualTask == null){break;}
                 
-                Objective ActualObjective = GameManager.Instance.ActualTask.TaskObjective;
-                string ActualPass = GameManager.Instance.PassInput;
+                // Objective ActualObjective = GameManager.Instance.ActualTask.TaskObjective;
+                // string ActualPass = GameManager.Instance.PassInput;
 
-                if(ActualObjective.lengthOb != 0)
-                {
+                // if(ActualObjective.lengthOb != 0)
+                // {
 
-                    if(ActualPass.Length > ActualObjective.lengthOb)
-                    {
-                        Debug.Log("demasiado larga");
-                    }
+                //     if(ActualPass.Length > ActualObjective.lengthOb)
+                //     {
+                //         Debug.Log("demasiado larga");
+                //     }
 
-                }
+                // }
 
-
+                GameManager.Instance.PassToObjective();
 
                 break;
 
@@ -122,6 +123,15 @@ public class Button : MonoBehaviour, IPointerClickHandler
             {
 
                 GameManager.Instance.DeleteNumbersPass();
+
+                break;
+
+            }
+
+            case Actions.ButtonActions.deletechars:
+            {
+
+                GameManager.Instance.DeleteCharsPass();
 
                 break;
 

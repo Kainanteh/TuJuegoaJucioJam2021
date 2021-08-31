@@ -22,7 +22,7 @@ public class TextLink : MonoBehaviour, IPointerClickHandler
         RaycastHit2D hitInfo = Physics2D.Raycast(GameManager.Instance.GetMouseAsWorldPoint(),
          Vector2.zero, Mathf.Infinity, 1 << LayerMask.NameToLayer("TextLink"));
 
-        if (hitInfo)
+        if (hitInfo && GameManager.Instance.CouroutinePass==null)
         {
            
             GameManager.Instance.SetTextPass(TextLinkText);

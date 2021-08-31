@@ -153,7 +153,7 @@ public class Final : MonoBehaviour
 
             yield return new WaitForSeconds(delay);
 
-            TextFinal = "Es usted el trabajador ideal para su puesto, le vere mañana";
+            TextFinal = "Es usted el trabajador ideal para su puesto, le vere en su proxima jornada";
 
             StartCoroutine(GameManager.Instance.TypeText(PadlockText, TextFinal, 0.05f));
 
@@ -165,8 +165,12 @@ public class Final : MonoBehaviour
 
             yield return new WaitForSeconds(delay);
 
+
+
         }
-        
+
+        GameManager.Instance.Square.clip = GameManager.Instance.ToBlack;
+        GameManager.Instance.Square.Play();
 
     }
 

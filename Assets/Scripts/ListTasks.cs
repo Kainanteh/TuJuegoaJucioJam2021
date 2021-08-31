@@ -63,7 +63,7 @@ public class ListTasks : MonoBehaviour
         {
 
             //Todas las posiciones estan "ocupadas"
-            Debug.Log("ocupadas");
+            // Debug.Log("ocupadas");
 
         }
     }

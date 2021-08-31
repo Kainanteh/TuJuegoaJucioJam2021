@@ -24,7 +24,7 @@ public class Tutorial : MonoBehaviour
     {
         TextMeshProUGUI PadlockText = GameManager.Instance.TMPTextPadlock;
 
-        yield return new WaitForSeconds(delay-3f);
+        yield return new WaitForSeconds(delay);
 
 
         TextTutorial = "Buenos dias empleado, ShortPassInc le da la bienvenida";
@@ -73,7 +73,7 @@ public class Tutorial : MonoBehaviour
         PadlockTransform.parent = PadlockPositionsTutorial[3];
         PadlockTransform.position = PadlockPositionsTutorial[3].position;
 
-        TextTutorial = "Aqui podra escoger las palabras con las que forma la clave";
+        TextTutorial = "Aqui podra escoger las palabras con las que formar la clave";
 
         StartCoroutine(GameManager.Instance.TypeText(PadlockText, TextTutorial, 0.05f));
 

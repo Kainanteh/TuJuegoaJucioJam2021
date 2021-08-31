@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -40,6 +41,7 @@ public class GameManager : MonoBehaviour
 
     Coroutine CouroutineTaskInfo;
     public Coroutine CouroutineTutorial;
+    public Coroutine CouroutinePass;
 
     public AudioSource SoundSource;
     public AudioClip[] AllSounds;
@@ -59,12 +61,15 @@ public class GameManager : MonoBehaviour
     public Final ScriptFinal;
     public Tutorial ScriptTutorial;
 
+    public Animation Square;
+    public AnimationClip ToBlack;
+
     private void Awake()
     {
 
         Instance = this;
 
-        DontDestroyOnLoad(this.gameObject);
+        // DontDestroyOnLoad(this.gameObject);
 
     }
 
@@ -75,10 +80,10 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < AllTasks.Count; i++)
         {
-
+            // if (AllTasks[i] == null) { continue; }
             if (AllTasks[i].TaskInList == false)
             {
-
+                
                 // ActualTask = AllTasks[i];
                 return AllTasks[i];
 
@@ -95,11 +100,11 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < AllTasks.Count; i++)
         {
-
+            // if(AllTasks[i]==null){continue;}
             if (AllTasks[i].TaskInList == true)
             {
 
-
+                
                 AllTasks[i].SquareTask(false);
             
 
@@ -157,9 +162,15 @@ public class GameManager : MonoBehaviour
 
     public void SetTextPass(string textString)
     {
-
-        string ToFormat = TMPTextPass.text + " " + textString;
-
+        string ToFormat;
+        if(PassInput == "")
+        {
+            ToFormat = textString;
+        }
+        else
+        {
+            ToFormat = PassInput + " " + textString;
+        }
         TextToPass(ToFormat);
 
         // TMPTextPass.text += " " + textString;
@@ -169,18 +180,19 @@ public class GameManager : MonoBehaviour
     public void DeleteTextPass()
     {
         TMPTextPass.text = "";
+        PassInput = "";
     }
 
     public void DeleteSpacesPass()
     {
-        string ToFormat = TMPTextPass.text;
+        string ToFormat = PassInput;
         ToFormat = ToFormat.Replace(" ", "");
         TextToPass(ToFormat);
     }
 
     public void DeleteNumbersPass()
     {
-        string ToFormat = TMPTextPass.text;
+        string ToFormat = PassInput;
       
         const string regex = @"\d";
 
@@ -192,7 +204,7 @@ public class GameManager : MonoBehaviour
 
     public void DeleteCharsPass()
     {
-        string ToFormat = TMPTextPass.text;
+        string ToFormat = PassInput;
 
         const string regex = @"\D+";
 
@@ -204,7 +216,7 @@ public class GameManager : MonoBehaviour
 
     public void DeleteSymbolsPass()
     {
-        string ToFormat = TMPTextPass.text;
+        string ToFormat = PassInput;
 
         const string regex = @"[^0-9a-zA-Z]+";
 
@@ -216,7 +228,7 @@ public class GameManager : MonoBehaviour
 
     public void MayusPass()
     {
-        string ToFormat = TMPTextPass.text;
+        string ToFormat = PassInput;
 
         ToFormat = ToFormat.ToUpper();
 
@@ -226,7 +238,7 @@ public class GameManager : MonoBehaviour
 
     public void MinusPass()
     {
-        string ToFormat = TMPTextPass.text;
+        string ToFormat = PassInput;
 
         ToFormat = ToFormat.ToLower();
 
@@ -249,14 +261,23 @@ public class GameManager : MonoBehaviour
         {
             EffecType = true;
             // TMPTextPass.text = newText;
-            StartCoroutine(TypeText(TMPTextPass,newText,0.05f));
-
+            // if(TMPTextPass.text != "" && TMPTextPass.text[0]==' '){TMPTextPass.text = TMPTextPass.text.Substring(1);}
+            if(CouroutinePass == null)
+            {
+                CouroutinePass = StartCoroutine(TypeText(TMPTextPass,newText,0.05f));
+            }
+            else
+            {
+                StopCoroutine(CouroutinePass);
+            }
         }
 
       
-        newText = newText.Substring(1); 
+        //  newText = newText.Substring(1);
+        
 
         PassInput = newText;
+        
 
         // Debug.Log(TMPTextPass.textInfo.);
         // if(TMPTextPass.isTextTruncated == false)
@@ -299,7 +320,7 @@ public class GameManager : MonoBehaviour
             // La clave tiene que tener numeros
             if(toCompare == ActualPass)
             {
-                Fails += " , no tiene numeros";
+                Fails += " no tiene numeros";
             }
      
         }
@@ -314,7 +335,7 @@ public class GameManager : MonoBehaviour
             // La clave NO tiene que tener numeros
             if (toCompare != ActualPass)
             {
-                Fails += " ,  tiene numeros";
+                Fails += " tiene numeros";
             }
             
         }
@@ -325,11 +346,11 @@ public class GameManager : MonoBehaviour
             const string regex = @"\d";
 
             toCompare = Regex.Replace(ActualPass, regex, string.Empty);
-
+            // Debug.Log(":" + toCompare);
             // La clave tiene que ser TODO numeros
-            if (toCompare != " ")
+            if (toCompare != "")
             {
-                Fails += " ,  no son todo numeros";
+                Fails += " no son todo numeros";
             }
 
         }
@@ -344,7 +365,7 @@ public class GameManager : MonoBehaviour
             // La clave tiene que tener TODO minusculas
             if (toCompare != ActualPass)
             {
-                Fails += " ,  no son todo minusculas";
+                Fails += " no son todo minusculas";
             }
 
         }
@@ -358,36 +379,40 @@ public class GameManager : MonoBehaviour
             // La clave tiene que tener TODO mayusculas
             if (toCompare != ActualPass)
             {
-                Fails += " ,  no son todo mayusculas";
+                Fails += " no son todo mayusculas";
             }
 
         }
-        if (ActualObjective.numminus != -1)
+        // if (ActualObjective.numminus != -1)
+        // {
+        //     // La clave tiene que tener # numero de minusculas
+        //     // if()
+        //     // {
+
+        //     // }
+        //     // else
+        //     // {
+
+        //     // }
+        // }
+        // if (ActualObjective.nummayus != -1)
+        // {
+        //     // La clave tiene que tener # numero de mayusculas
+        //     // if()
+        //     // {
+
+        //     // }
+        //     // else
+        //     // {
+
+        //     // }
+        // }
+
+        //  Debug.Log(Fails);
+        if(Fails != "" && InTutorial == false)
         {
-            // La clave tiene que tener # numero de minusculas
-            // if()
-            // {
-
-            // }
-            // else
-            // {
-
-            // }
+        StartCoroutine(GameManager.Instance.TypeText(TMPTextPadlock, Fails, 0.05f));
         }
-        if (ActualObjective.nummayus != -1)
-        {
-            // La clave tiene que tener # numero de mayusculas
-            // if()
-            // {
-
-            // }
-            // else
-            // {
-
-            // }
-        }
-
-         Debug.Log(Fails);
 
         if(Fails == "" && ActualPass!="")
         {
@@ -412,7 +437,10 @@ public class GameManager : MonoBehaviour
         {
             Final();
         }
-
+        if (Fails != "" && InTutorial == false)
+        {
+        StartCoroutine(TimeTextPadlock());
+        }
     }
 
     // Posicion Raton/Dedo en la pantalla
@@ -438,6 +466,7 @@ public class GameManager : MonoBehaviour
 
         }
         EffecType = false;
+        CouroutinePass = null;
     }
 
     public IEnumerator TypeText(TextMeshProUGUI TMP, string text, float delay, bool TaskInfo)
@@ -451,6 +480,14 @@ public class GameManager : MonoBehaviour
 
         }
         EffecTypeTaskInfo = false;
+        // if(CouroutinePass != null){CouroutinePass = null;}
+    }
+
+    public IEnumerator TimeTextPadlock()
+    {
+        yield return new WaitForSeconds(4f);
+
+        TMPTextPadlock.text = "";
     }
 
 
@@ -486,14 +523,19 @@ public class GameManager : MonoBehaviour
 
         }
 
-
+   
 
 
     }
 
 
 
+    public void ChangeScene()
+    {
 
+        SceneManager.LoadScene("MenuScene");
+
+    }
 
   
 

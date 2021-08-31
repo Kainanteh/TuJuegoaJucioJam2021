@@ -93,16 +93,16 @@ public class ActionSelected : MonoBehaviour
                 return "Todo minusculas";
             }
 
-            case Actions.ButtonActions.capitalice:
-            {
+            // case Actions.ButtonActions.capitalice:
+            // {
 
-                return "Capitalizar";
-            }
+            //     return "Capitalizar";
+            // }
 
-            case Actions.ButtonActions.descapitalice:
-            {
-                return "Descapitalizar";
-            }
+            // case Actions.ButtonActions.descapitalice:
+            // {
+            //     return "Descapitalizar";
+            // }
 
             default:
             {

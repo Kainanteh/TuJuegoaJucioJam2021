@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     public List<Task> AllTasks = new List<Task>();
     public Task ActualTask;
+    public int TasksNumber = 0;
+    public int TaskMax;
 
     [HideInInspector] public TextLink TLNombre;
     [HideInInspector] public TextLink TLApellidos;
@@ -37,12 +39,15 @@ public class GameManager : MonoBehaviour
     private bool EffecTypeTextLink = false;
 
     Coroutine CouroutineTaskInfo;
+    public Coroutine CouroutineTutorial;
 
     public AudioSource SoundSource;
     public AudioClip[] AllSounds;
 
     public TextMeshProUGUI TMPTextPadlock;
     public bool InTutorial = true;
+
+    public bool InFinal = false;
 
     public TextMeshProUGUI TMPTextTimer;
     public Progress ScriptProgress;
@@ -51,6 +56,8 @@ public class GameManager : MonoBehaviour
     int TaskCompleted = 0;
     public TextMeshProUGUI TMPTextTaskFail;
     int TaskFail = 0;
+    public Final ScriptFinal;
+    public Tutorial ScriptTutorial;
 
     private void Awake()
     {
@@ -380,7 +387,7 @@ public class GameManager : MonoBehaviour
             // }
         }
 
-        // Debug.Log(Fails);
+         Debug.Log(Fails);
 
         if(Fails == "" && ActualPass!="")
         {
@@ -394,10 +401,17 @@ public class GameManager : MonoBehaviour
             TMPTextTaskFail.text = TaskFail.ToString();
             SoundSource.PlayOneShot(GameManager.Instance.AllSounds[2]);
         }
+
         PassInput= "";
         DeleteTextPass();
         Destroy(ActualTask.gameObject);
+
         ScriptProgress.timerIsRunning = true;
+        TasksNumber++;
+        if(TasksNumber == TaskMax)
+        {
+            Final();
+        }
 
     }
 
@@ -443,7 +457,37 @@ public class GameManager : MonoBehaviour
     public void Final()
     {
 
-        Debug.Log("FINAL");
+        if(TaskCompleted > TaskFail)
+        {
+
+            // Final todos hackeados buen trabajo a la mierda la empresa
+            StartCoroutine(ScriptFinal.FinalCourutine(0));
+
+        }
+        else if(TaskCompleted < TaskFail)
+        {
+
+            // Final todo seguro muy mal despedido
+            StartCoroutine(ScriptFinal.FinalCourutine(1));
+
+        }
+        else if (TaskCompleted == 0  && TaskFail == 0)
+        {
+
+            // No has hecho nada elegantemente, aumento de sueldo y promocion
+            StartCoroutine(ScriptFinal.FinalCourutine(2));
+
+        }
+        else if (TaskCompleted == TaskFail)
+        {
+
+            // NI bien ni mal, bien hecho te veo mañana
+            StartCoroutine(ScriptFinal.FinalCourutine(3));
+
+        }
+
+
+
 
     }
 

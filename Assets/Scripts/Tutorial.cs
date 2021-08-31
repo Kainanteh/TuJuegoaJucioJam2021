@@ -16,7 +16,7 @@ public class Tutorial : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(TutorialCourutine());
+        GameManager.Instance.CouroutineTutorial= StartCoroutine(TutorialCourutine());
     }
 
 

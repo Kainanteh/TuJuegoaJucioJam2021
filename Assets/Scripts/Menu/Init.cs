@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class Init : MonoBehaviour
 {
 
+    public Localisation ScriptLocal;
+
     TextMeshProUGUI Myrenderer;
     public SpriteRenderer AlphaSquare;
 
@@ -15,12 +17,21 @@ public class Init : MonoBehaviour
     public AnimationClip ToAlpha;
     public AnimationClip ToBlack;
 
+    private void Awake()
+    {
+
+      
+        ScriptLocal = GameObject.Find("Localisation").GetComponent<Localisation>();
+
+    }
+
     private void Start() 
     {
         Myrenderer = GetComponent<TextMeshProUGUI>();
         Myrenderer.color = Color.yellow;
         AlphaAnimaton.clip = ToAlpha;
-        AlphaAnimaton.Play(); 
+        AlphaAnimaton.Play();
+        SetTextInit();
 
     }
 
@@ -47,13 +58,15 @@ public class Init : MonoBehaviour
 
     }
 
+    public void SetTextInit()
+    {
+        Myrenderer.text = ScriptLocal.GetTextLocal(0);        
+    }
+
+
+
     // private void ToAlpha()
     // {
-
-         
-
-       
-
     //     // if(_progress < 255)
     //     // // {
     //     //     AlphaSquare.color = new Color(_tmpColor.r, _tmpColor.g, _tmpColor.b, _progress); 

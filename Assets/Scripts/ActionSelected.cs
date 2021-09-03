@@ -62,35 +62,109 @@ public class ActionSelected : MonoBehaviour
 
             case Actions.ButtonActions.deletespace:
             {
-                return "Borrar espacios";
+                if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.spanish)
+                {
+                    return "Borrar espacios";
+                }
+                else if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.english)
+                {
+                    return "Delete spaces";
+                }
+                else
+                {
+                    return "";
+                }
+               
             }
 
             case Actions.ButtonActions.deletesimbol:
             {
-                return "Borrar simbolos";
+                
+                if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.spanish)
+                {
+                    return "Borrar espacios";
+                }
+                else if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.english)
+                {
+                    return "Delete symbols";
+                }
+                else
+                {
+                    return "";
+                }
+
             }
 
             case Actions.ButtonActions.deletenumber:
             {
 
-                return "Borrar numeros";
+                if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.spanish)
+                {
+                    return "Borrar numeros";
+                }
+                else if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.english)
+                {
+                    return "Delete numbers";
+                }
+                else
+                {
+                    return "";
+                }
+
             }
 
             case Actions.ButtonActions.deletechars:
             {
-                return "Borrar letras";
+
+                if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.spanish)
+                {
+                    return "Borrar letras";
+                }
+                else if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.english)
+                {
+                    return "Delete letters";
+                }
+                else
+                {
+                    return "";
+                }
+
             }
 
             case Actions.ButtonActions.mayus:
             {
 
-                return "Todo mayusculas";
+                if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.spanish)
+                {
+                    return "Todo mayusculas";
+                }
+                else if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.english)
+                {
+                    return "All uppercase";
+                }
+                else
+                {
+                    return "";
+                }
+
             }
 
             case Actions.ButtonActions.minus:
             {
 
-                return "Todo minusculas";
+                if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.spanish)
+                {
+                    return "Todo mayusculas";
+                }
+                else if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.english)
+                {
+                    return "All lowercase";
+                }
+                else
+                {
+                    return "";
+                }
+
             }
 
             // case Actions.ButtonActions.capitalice:

@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
 
+    #region Variables
+
     public static GameManager Instance { get; private set; }
 
     public string PassInput = "";
@@ -64,12 +66,33 @@ public class GameManager : MonoBehaviour
     public Animation Square;
     public AnimationClip ToBlack;
 
+    #endregion
+
+    public Localisation ScriptLocal;
+
+    [SerializeField] TextMeshProUGUI LabelName;
+    [SerializeField] TextMeshProUGUI LabelLastName;
+    [SerializeField] TextMeshProUGUI LabelBirth;
+    [SerializeField] TextMeshProUGUI LabelAge;
+    [SerializeField] TextMeshProUGUI LabelCity;
+
     private void Awake()
     {
 
         Instance = this;
 
         // DontDestroyOnLoad(this.gameObject);
+        ScriptLocal = GameObject.Find("Localisation").GetComponent<Localisation>();
+        
+    }
+
+    private void Start() 
+    {
+
+        if(ScriptLocal!=null)
+        {
+        SetTextUserInfo();
+        }
 
     }
 
@@ -290,6 +313,7 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    #region Objective
 
     public void PassToObjective()
     {
@@ -306,7 +330,16 @@ public class GameManager : MonoBehaviour
             // La clave no se pasa del objetivo
             if (ActualPass.Length > ActualObjective.lengthOb)
             {
-                Fails += "demasiado larga";
+                if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.spanish)
+                {
+                    Fails += "demasiado larga";
+                }
+                else if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.english)
+                {
+                    Fails += "too long";
+                }
+
+                
             }
         }
         if (ActualObjective.number == true)
@@ -320,7 +353,15 @@ public class GameManager : MonoBehaviour
             // La clave tiene que tener numeros
             if(toCompare == ActualPass)
             {
-                Fails += " no tiene numeros";
+                if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.spanish)
+                {
+                    Fails += " no tiene numeros";
+                }
+                else if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.english)
+                {
+                    Fails += "it has no numbers";
+                }
+               
             }
      
         }
@@ -335,7 +376,15 @@ public class GameManager : MonoBehaviour
             // La clave NO tiene que tener numeros
             if (toCompare != ActualPass)
             {
-                Fails += " tiene numeros";
+                if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.spanish)
+                {
+                    Fails += " tiene numeros";
+                }
+                else if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.english)
+                {
+                    Fails += "it has numbers";
+                }
+   
             }
             
         }
@@ -350,7 +399,15 @@ public class GameManager : MonoBehaviour
             // La clave tiene que ser TODO numeros
             if (toCompare != "")
             {
-                Fails += " no son todo numeros";
+                if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.spanish)
+                {
+                    Fails += " no son todo numeros";
+                }
+                else if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.english)
+                {
+                    Fails += "they are not all numbers";
+                }
+               
             }
 
         }
@@ -365,7 +422,15 @@ public class GameManager : MonoBehaviour
             // La clave tiene que tener TODO minusculas
             if (toCompare != ActualPass)
             {
-                Fails += " no son todo minusculas";
+                if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.spanish)
+                {
+                    Fails += " no son todo minusculas";
+                }
+                else if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.english)
+                {
+                    Fails += "they are not all lowercase";
+                }
+                
             }
 
         }
@@ -379,7 +444,15 @@ public class GameManager : MonoBehaviour
             // La clave tiene que tener TODO mayusculas
             if (toCompare != ActualPass)
             {
-                Fails += " no son todo mayusculas";
+                if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.spanish)
+                {
+                    Fails += " no son todo mayusculas";
+                }
+                else if (GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.english)
+                {
+                    Fails += "they are not all uppercase";
+                }
+            
             }
 
         }
@@ -442,6 +515,10 @@ public class GameManager : MonoBehaviour
         StartCoroutine(TimeTextPadlock());
         }
     }
+
+    #endregion
+
+    #region Others
 
     // Posicion Raton/Dedo en la pantalla
     public Vector3 GetMouseAsWorldPoint()
@@ -537,6 +614,17 @@ public class GameManager : MonoBehaviour
 
     }
 
+    #endregion
   
+    public void SetTextUserInfo()
+    {
+
+        LabelName.text = ScriptLocal.GetTextLocal(1);
+        LabelLastName.text = ScriptLocal.GetTextLocal(2);
+        LabelBirth.text = ScriptLocal.GetTextLocal(3);
+        LabelAge.text = ScriptLocal.GetTextLocal(4);
+        LabelCity.text = ScriptLocal.GetTextLocal(5);
+
+    }
 
 }

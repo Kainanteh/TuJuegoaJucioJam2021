@@ -11,6 +11,8 @@ public class Task : MonoBehaviour,IPointerClickHandler
 
     public string TaskInfo;
 
+    public string TaskInfoEnglish;
+
     public bool TaskInList = false;
 
     public Objective TaskObjective;
@@ -30,7 +32,16 @@ public class Task : MonoBehaviour,IPointerClickHandler
         {
 
             GameManager.Instance.ActualTask = this;
-            GameManager.Instance.SetTextTaskInfo(TaskInfo);
+
+            if(GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.spanish)
+            {
+                GameManager.Instance.SetTextTaskInfo(TaskInfo);
+            }
+            else if(GameManager.Instance.ScriptLocal.ActualIdiom == Idiom.english)
+            {
+                GameManager.Instance.SetTextTaskInfo(TaskInfoEnglish);
+            }
+
             GameManager.Instance.SetTextUserInfo(TaskUser);
             GameManager.Instance.DeselectAllTaskList();
             SquareTask(true);
